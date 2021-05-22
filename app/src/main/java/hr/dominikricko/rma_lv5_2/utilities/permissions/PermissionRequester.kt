@@ -11,6 +11,7 @@ import java.util.concurrent.ConcurrentHashMap
 class PermissionResult(val permission: String, val state: State)
 enum class State { GRANTED, DENIED_TEMPORARILY, DENIED_PERMANENTLY }
 typealias Cancellable = () -> Unit
+
 private const val PERMISSIONS_ARGUMENT_KEY = "PERMISSIONS_ARGUMENT_KEY"
 private const val REQUEST_CODE_ARGUMENT_KEY = "REQUEST_CODE_ARGUMENT_KEY"
 
@@ -22,7 +23,10 @@ object PermissionRequester {
             return if (field < 0) 255 else field
         }
 
-    fun requestPermissions(vararg permissions: String, callback: (List<PermissionResult>) -> Unit): Cancellable {
+    fun requestPermissions(
+        vararg permissions: String,
+        callback: (List<PermissionResult>) -> Unit
+    ): Cancellable {
         val intent = Intent(ApplicationContext.context, PermissionRequestActivity::class.java)
             .putExtra(PERMISSIONS_ARGUMENT_KEY, permissions)
             .putExtra(REQUEST_CODE_ARGUMENT_KEY, requestCode)
@@ -51,18 +55,29 @@ class PermissionRequestActivity : AppCompatActivity() {
         val permissions = intent?.getStringArrayExtra(PERMISSIONS_ARGUMENT_KEY) ?: arrayOf()
         val requestCode = intent?.getIntExtra(REQUEST_CODE_ARGUMENT_KEY, -1) ?: -1
         when {
-            permissions.isNotEmpty() && requestCode != -1 -> ActivityCompat.requestPermissions(this, permissions, requestCode)
+            permissions.isNotEmpty() && requestCode != -1 -> ActivityCompat.requestPermissions(
+                this,
+                permissions,
+                requestCode
+            )
             else -> finishWithResult()
         }
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String>,
+        grantResults: IntArray
+    ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
 
         val permissionResults = grantResults.zip(permissions).map { (grantResult, permission) ->
-            val state =  when {
+            val state = when {
                 grantResult == PackageManager.PERMISSION_GRANTED -> State.GRANTED
-                ActivityCompat.shouldShowRequestPermissionRationale(this, permission) -> State.DENIED_TEMPORARILY
+                ActivityCompat.shouldShowRequestPermissionRationale(
+                    this,
+                    permission
+                ) -> State.DENIED_TEMPORARILY
                 else -> State.DENIED_PERMANENTLY
             }
             PermissionResult(permission, state)

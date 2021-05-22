@@ -5,11 +5,10 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import hr.dominikricko.rma_lv5_2.ApplicationContext
 import hr.dominikricko.rma_lv5_2.utilities.Locations
 import hr.dominikricko.rma_lv5_2.utilities.Sounds
-import hr.dominikricko.rma_lv5_2.utilities.permissions.Cancellable
-import hr.dominikricko.rma_lv5_2.utilities.permissions.PermissionRequester
-import hr.dominikricko.rma_lv5_2.utilities.permissions.State
+import pub.devrel.easypermissions.EasyPermissions
 
 class ActivityViewModel : ViewModel(){
 
@@ -23,11 +22,12 @@ class ActivityViewModel : ViewModel(){
     var state : String = "Država: unknown"
     var place : String = "Mjesto: unknown"
 
-    var cancelRequest = requestLocationPermission()
-
     fun giveMap(googleMap: GoogleMap){
         map = googleMap
         map.setOnMapLongClickListener { addMarker(it) }
+
+        if(EasyPermissions.hasPermissions(ApplicationContext.context,Locations.PERMISSION))
+            setMapToCurrentLocation()
     }
 
     private fun addMarker(latLng: LatLng){
@@ -39,27 +39,23 @@ class ActivityViewModel : ViewModel(){
         sounds.playMarkerSound()
     }
 
-    private fun setMapToCurrentLocation(){
-        val cameraUpdate = CameraUpdateFactory.newLatLngZoom(
-            locations.getCurrentLocation(), 10f)
+    private fun updateFields(){
+        val latitudeBuilder = StringBuilder()
+        val longitudeBuilder = StringBuilder()
+        val addressBuilder = StringBuilder()
+        val stateBuilder = StringBuilder()
+        val placeBuilder = StringBuilder()
+
+        latitudeBuilder.append("Geografska širina: ")
+        longitudeBuilder.append("Geografska dužina: ")
+        addressBuilder.append("Adresa: ")
+        stateBuilder.append("Država: ")
+        placeBuilder.append("Mjesto: ")
+    }
+
+    fun setMapToCurrentLocation(){
+        val cameraUpdate = CameraUpdateFactory.newLatLngZoom(locations.location, 10f)
         map.animateCamera(cameraUpdate)
-    }
-
-    private fun requestLocationPermission() : Cancellable{
-
-        return PermissionRequester.requestPermissions( Locations.PERMISSION){
-
-            it.forEach {
-                if(it.state == State.GRANTED && it.permission == Locations.PERMISSION)
-                    setMapToCurrentLocation()
-
-            }
-        }
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-        cancelRequest()
     }
 
 }

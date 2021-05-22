@@ -1,19 +1,17 @@
 package hr.dominikricko.rma_lv5_2.ui.activity
 
-import android.location.LocationManager
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.os.PersistableBundle
-import android.webkit.PermissionRequest
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.Observer
-
 import hr.dominikricko.rma_lv5_2.R
 import hr.dominikricko.rma_lv5_2.databinding.ActivityMainBinding
 import hr.dominikricko.rma_lv5_2.ui.viewmodel.ActivityViewModel
 import hr.dominikricko.rma_lv5_2.utilities.Locations
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import pub.devrel.easypermissions.EasyPermissions
+import pub.devrel.easypermissions.PermissionRequest
 
 class MainActivity : AppCompatActivity() {
 
@@ -27,10 +25,19 @@ class MainActivity : AppCompatActivity() {
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
 
+        if(!EasyPermissions.hasPermissions(this, Locations.PERMISSION)){
+            EasyPermissions.requestPermissions(PermissionRequest.Builder(
+                this, Locations.CODE, Locations.PERMISSION)
+                .setRationale(R.string.rationale_ask)
+                .build())
+        }
+
         binding.also{ it ->
             it.mvMap.onCreate(savedInstanceState)
             it.mvMap.getMapAsync { googleMap -> viewModel.giveMap(googleMap)}
         }
+
+
 
     }
 
@@ -67,5 +74,20 @@ class MainActivity : AppCompatActivity() {
     override fun onLowMemory() {
         super.onLowMemory()
         binding.mvMap.onLowMemory()
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+
+        when(requestCode){
+            Locations.CODE ->
+                if(grantResults[0] == PackageManager.PERMISSION_GRANTED)
+                    viewModel.setMapToCurrentLocation()
+        }
+
     }
 }
