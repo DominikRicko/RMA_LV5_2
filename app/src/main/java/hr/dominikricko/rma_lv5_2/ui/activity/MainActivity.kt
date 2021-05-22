@@ -1,16 +1,19 @@
 package hr.dominikricko.rma_lv5_2.ui.activity
 
+import android.location.LocationManager
 import android.os.Bundle
 import android.os.PersistableBundle
+import android.webkit.PermissionRequest
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
-import com.google.android.gms.maps.GoogleMap
+import androidx.lifecycle.Observer
+
 import hr.dominikricko.rma_lv5_2.R
 import hr.dominikricko.rma_lv5_2.databinding.ActivityMainBinding
 import hr.dominikricko.rma_lv5_2.ui.viewmodel.ActivityViewModel
+import hr.dominikricko.rma_lv5_2.utilities.Locations
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import pub.devrel.easypermissions.EasyPermissions
-
 
 class MainActivity : AppCompatActivity() {
 
@@ -27,21 +30,8 @@ class MainActivity : AppCompatActivity() {
         binding.also{ it ->
             it.mvMap.onCreate(savedInstanceState)
             it.mvMap.getMapAsync { googleMap -> viewModel.giveMap(googleMap)}
-
-
         }
 
-    }
-
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-
-        // Forward results to EasyPermissions
-        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this)
     }
 
     override fun onStart() {
