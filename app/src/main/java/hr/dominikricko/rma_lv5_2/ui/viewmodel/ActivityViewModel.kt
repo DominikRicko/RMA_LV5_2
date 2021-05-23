@@ -1,12 +1,15 @@
 package hr.dominikricko.rma_lv5_2.ui.viewmodel
 
+import android.widget.Toast
 import androidx.lifecycle.ViewModel
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import hr.dominikricko.rma_lv5_2.ApplicationContext
 import hr.dominikricko.rma_lv5_2.model.LocationData
 import hr.dominikricko.rma_lv5_2.utilities.Sounds
+import hr.dominikricko.rma_lv5_2.utilities.camera.CameraHandler
 import java.util.*
 
 class ActivityViewModel : ViewModel(), Observer {
@@ -14,6 +17,7 @@ class ActivityViewModel : ViewModel(), Observer {
     private lateinit var map: GoogleMap
     private val sounds = Sounds.getInstance()
     private val locationData = LocationData()
+    private val cameraHandler = CameraHandler
 
     val latitude = locationData.latitude
     val longitude = locationData.longitude
@@ -49,4 +53,9 @@ class ActivityViewModel : ViewModel(), Observer {
             locationData.deleteObserver(this)
         }
     }
+
+    fun storePhoto(){
+        cameraHandler.requestPhoto { Toast.makeText(ApplicationContext.context,"Got a photo", Toast.LENGTH_SHORT).show() }
+    }
+
 }
