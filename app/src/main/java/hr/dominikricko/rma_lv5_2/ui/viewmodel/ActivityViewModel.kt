@@ -36,7 +36,8 @@ class ActivityViewModel : ViewModel(), Observer {
     }
 
     private fun setMapToNewLocation(latitudeLongitude: LatLng) {
-        map.animateCamera(CameraUpdateFactory.newLatLngZoom(latitudeLongitude, 10f))
+        if(this::map.isInitialized)
+            map.moveCamera(CameraUpdateFactory.newLatLngZoom(latitudeLongitude, 10f))
     }
 
     private fun addMarker(latLng: LatLng) {
@@ -51,7 +52,7 @@ class ActivityViewModel : ViewModel(), Observer {
     override fun update(o: Observable?, arg: Any?) {
         if (o == locationData) {
             setMapToNewLocation(arg as? LatLng ?: LatLng(0.0, 0.0))
-            locationData.deleteObserver(this)
+//            locationData.deleteObserver(this)
         }
     }
 

@@ -76,7 +76,18 @@ class LocationHandler private constructor() : LocationListener {
     }
 
     override fun onLocationChanged(location: Location) {
-        subscribers.forEach { it.update((location)) }
+
+        var index = 0
+        var subscriberCount = subscribers.size
+
+        while (index < subscriberCount){
+
+            subscribers[index].update(location)
+
+            if (subscriberCount == subscribers.size) index++
+            subscriberCount = subscribers.size
+        }
+
     }
 
 
