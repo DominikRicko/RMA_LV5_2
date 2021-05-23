@@ -4,6 +4,7 @@ import android.location.Location
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.android.gms.maps.model.LatLng
+import hr.dominikricko.rma_lv5_2.utilities.GeocodingHandler
 import hr.dominikricko.rma_lv5_2.utilities.location.LocationHandler
 import hr.dominikricko.rma_lv5_2.utilities.location.LocationListenerObserver
 import java.util.*
@@ -11,6 +12,7 @@ import java.util.*
 class LocationData : LocationListenerObserver, Observable(){
 
     private val locationHandler = LocationHandler.getInstance()
+    private val geocodingHandler =  GeocodingHandler.getInstance()
 
     init{
         locationHandler.subscribe(this)
@@ -35,7 +37,20 @@ class LocationData : LocationListenerObserver, Observable(){
         _longitude.postValue(location.longitude)
         _latitude.postValue(location.latitude)
 
-        //TODO: coordinates resolver
+        val resolvedAddress = geocodingHandler.resolveAddress(location.latitude, location.longitude)
+
+        if(resolvedAddress == null){
+            _address.postValue("Unknown")
+            _place.postValue("Unknown")
+            _state.postValue("Unknown")
+        }
+        else{
+            resolvedAddress.let {
+                _address.postValue(it.getAddressLine(0))
+                _place.postValue(it.subAdminArea)
+                _state.postValue(it.countryName)
+            }
+        }
 
         setChanged()
         notifyObservers(LatLng(location.latitude, location.longitude))

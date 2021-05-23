@@ -11,6 +11,7 @@ import hr.dominikricko.rma_lv5_2.utilities.permissions.PermissionRequester
 import hr.dominikricko.rma_lv5_2.utilities.permissions.State
 import pub.devrel.easypermissions.EasyPermissions
 
+
 class LocationHandler private constructor() : LocationListener {
 
     companion object {
@@ -28,12 +29,13 @@ class LocationHandler private constructor() : LocationListener {
         .getSystemService(Context.LOCATION_SERVICE) as LocationManager
 
     private fun trackLocation() {
+
         if (EasyPermissions.hasPermissions(ApplicationContext.context, PERMISSION)) {
             startTrackingLocation()
         } else {
             PermissionRequester.requestPermissions(PERMISSION) {
                 if (it[0].state == State.GRANTED)
-                    startTrackingLocation()
+                    trackLocation()
 
             }
         }
