@@ -52,7 +52,7 @@ class ActivityViewModel : ViewModel(), Observer {
     override fun update(o: Observable?, arg: Any?) {
         if (o == locationData) {
             setMapToNewLocation(arg as? LatLng ?: LatLng(0.0, 0.0))
-//            locationData.deleteObserver(this)
+            locationData.deleteObserver(this)
         }
     }
 
