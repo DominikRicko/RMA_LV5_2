@@ -12,12 +12,13 @@ object PhotoSaver {
 
     private lateinit var currentPhotoPath: String
 
-    fun savePhoto(name: String, photo: Bitmap){
+    fun savePhoto(name: String, photo: Bitmap) : File?{
         try{
             val file = createImageFile(name)
             FileOutputStream(file).use { out ->
                 photo.compress(Bitmap.CompressFormat.PNG, 100, out)
             }
+            return file
 
         }
         catch(e: IOException){
@@ -25,7 +26,7 @@ object PhotoSaver {
                 .show()
             e.printStackTrace()
         }
-
+        return null
     }
 
     @Throws(IOException::class)

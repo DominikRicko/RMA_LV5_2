@@ -1,6 +1,8 @@
 package hr.dominikricko.rma_lv5_2.ui.viewmodel
 
-import android.widget.Toast
+import android.content.Intent
+import androidx.core.content.ContextCompat.startActivity
+import androidx.core.net.toUri
 import androidx.lifecycle.ViewModel
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -11,7 +13,9 @@ import hr.dominikricko.rma_lv5_2.model.LocationData
 import hr.dominikricko.rma_lv5_2.utilities.PhotoSaver
 import hr.dominikricko.rma_lv5_2.utilities.Sounds
 import hr.dominikricko.rma_lv5_2.utilities.camera.CameraHandler
+import java.lang.StringBuilder
 import java.util.*
+
 
 class ActivityViewModel : ViewModel(), Observer {
 
@@ -57,9 +61,21 @@ class ActivityViewModel : ViewModel(), Observer {
 
     fun storePhoto(){
         cameraHandler.requestPhoto {
-            Toast.makeText(ApplicationContext.context,"Got a photo", Toast.LENGTH_SHORT).show()
             if (it != null) {
-                PhotoSaver.savePhoto("Test", it)
+                val filename = StringBuilder()
+                    .append("Lat").append(latitude.value)
+                    .append("Long").append(longitude.value)
+                    .toString()
+
+                val file = PhotoSaver.savePhoto(filename, it)
+
+                file?.let {
+                    val intent = Intent()
+                    intent.action = Intent.ACTION_VIEW
+                    intent.setDataAndType(file.toUri(), "image/*");
+                    startActivity(ApplicationContext.context, intent, null);
+                }
+
             }
 
         }
