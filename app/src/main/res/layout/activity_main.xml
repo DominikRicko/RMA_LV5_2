@@ -56,45 +56,45 @@
             android:id="@+id/tv_latitude"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="@{viewModel.latitude.toString()}"
             app:layout_constraintLeft_toLeftOf="@id/guide_start"
             app:layout_constraintTop_toBottomOf="@id/btn_takePhoto"
-            android:text="@{viewModel.latitude.toString()}"
             tools:text="Geografska širina: 45.0010101" />
 
         <TextView
             android:id="@+id/tv_longitude"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="@{viewModel.longitude.toString()}"
             app:layout_constraintLeft_toLeftOf="@id/guide_start"
             app:layout_constraintTop_toBottomOf="@id/tv_latitude"
-            android:text="@{viewModel.longitude.toString()}"
             tools:text="Geografska dužina: 18.0010101" />
 
         <TextView
             android:id="@+id/tv_state"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="@{viewModel.state}"
             app:layout_constraintLeft_toLeftOf="@id/guide_start"
             app:layout_constraintTop_toBottomOf="@id/tv_longitude"
-            android:text="@{viewModel.state}"
             tools:text="Država: Hrvatska" />
 
         <TextView
             android:id="@+id/tv_place"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="@{viewModel.place}"
             app:layout_constraintLeft_toLeftOf="@id/guide_start"
             app:layout_constraintTop_toBottomOf="@id/tv_state"
-            android:text="@{viewModel.place}"
             tools:text="Mjesto: Osijek" />
 
         <TextView
             android:id="@+id/tv_address"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="@{viewModel.address}"
             app:layout_constraintLeft_toLeftOf="@id/guide_start"
             app:layout_constraintTop_toBottomOf="@id/tv_place"
-            android:text="@{viewModel.address}"
             tools:text="Adresa: Petrinjska ulica 51" />
 
         <com.google.android.gms.maps.MapView

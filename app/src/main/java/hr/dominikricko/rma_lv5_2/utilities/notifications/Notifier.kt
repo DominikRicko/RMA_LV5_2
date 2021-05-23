@@ -16,28 +16,34 @@ import java.io.File
 
 object Notifier {
 
-    fun notify(file: File){
+    fun notify(file: File) {
 
         val intent = Intent(ApplicationContext.context, Notification::class.java)
         intent.action = Intent.ACTION_VIEW
         intent.setDataAndType(file.toUri(), "image/*");
         intent.flags = Intent.FLAG_GRANT_READ_URI_PERMISSION +
-        Intent.FLAG_ACTIVITY_NEW_TASK + Intent.FLAG_ACTIVITY_CLEAR_TASK
+                Intent.FLAG_ACTIVITY_NEW_TASK + Intent.FLAG_ACTIVITY_CLEAR_TASK
 
-        val pIntent = PendingIntent.getActivity(ApplicationContext.context, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT)
+        val pIntent = PendingIntent.getActivity(
+            ApplicationContext.context,
+            0,
+            intent,
+            PendingIntent.FLAG_CANCEL_CURRENT
+        )
 
         val bm = BitmapFactory.decodeFile(file.path)
 
         val builder = NotificationCompat.Builder(ApplicationContext.context)
         val notification = builder.setContentTitle("Taken photo")
-                .setContentText("Tap to view.")
-                .setContentIntent(pIntent)
-                .setLargeIcon(bm.asImageBitmap().asAndroidBitmap())
-                .build()
+            .setContentText("Tap to view.")
+            .setContentIntent(pIntent)
+            .setLargeIcon(bm.asImageBitmap().asAndroidBitmap())
+            .build()
 
         notification.flags = Notification.FLAG_AUTO_CANCEL
 
-        val notifManager = ApplicationContext.context.getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+        val notifManager =
+            ApplicationContext.context.getSystemService(NOTIFICATION_SERVICE) as NotificationManager
         notifManager.notify(1337, notification)
 
     }

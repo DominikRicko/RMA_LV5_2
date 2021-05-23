@@ -10,7 +10,6 @@ import hr.dominikricko.rma_lv5_2.utilities.PhotoSaver
 import hr.dominikricko.rma_lv5_2.utilities.Sounds
 import hr.dominikricko.rma_lv5_2.utilities.camera.CameraHandler
 import hr.dominikricko.rma_lv5_2.utilities.notifications.Notifier
-import java.lang.StringBuilder
 import java.util.*
 
 
@@ -50,13 +49,13 @@ class ActivityViewModel : ViewModel(), Observer {
     }
 
     override fun update(o: Observable?, arg: Any?) {
-        if(o == locationData){
-            setMapToNewLocation( arg as? LatLng ?: LatLng(0.0, 0.0))
+        if (o == locationData) {
+            setMapToNewLocation(arg as? LatLng ?: LatLng(0.0, 0.0))
             locationData.deleteObserver(this)
         }
     }
 
-    fun storePhoto(){
+    fun storePhoto() {
         cameraHandler.requestPhoto {
             if (it != null) {
                 val filename = StringBuilder()
@@ -65,7 +64,7 @@ class ActivityViewModel : ViewModel(), Observer {
                     .toString()
 
                 val file = PhotoSaver.savePhoto(filename, it)
-                file?.let { Notifier.notify(file)}
+                file?.let { Notifier.notify(file) }
 
             }
 

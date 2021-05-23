@@ -14,7 +14,8 @@ object PermissionRequester {
 
     fun requestPermissions(
         vararg permissions: String,
-        callback: (List<PermissionResult>) -> Unit): () -> Unit {
+        callback: (List<PermissionResult>) -> Unit
+    ): () -> Unit {
 
         val intent = Intent(ApplicationContext.context, PermissionRequestActivity::class.java)
             .putExtra(PERMISSIONS_ARGUMENT_KEY, permissions)

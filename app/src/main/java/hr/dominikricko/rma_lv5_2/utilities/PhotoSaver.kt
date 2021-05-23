@@ -12,17 +12,16 @@ object PhotoSaver {
 
     private lateinit var currentPhotoPath: String
 
-    fun savePhoto(name: String, photo: Bitmap) : File?{
-        try{
+    fun savePhoto(name: String, photo: Bitmap): File? {
+        try {
             val file = createImageFile(name)
             FileOutputStream(file).use { out ->
                 photo.compress(Bitmap.CompressFormat.PNG, 100, out)
             }
             return file
 
-        }
-        catch(e: IOException){
-            Toast.makeText(ApplicationContext.context,"Failed storing image",Toast.LENGTH_SHORT)
+        } catch (e: IOException) {
+            Toast.makeText(ApplicationContext.context, "Failed storing image", Toast.LENGTH_SHORT)
                 .show()
             e.printStackTrace()
         }
@@ -32,7 +31,8 @@ object PhotoSaver {
     @Throws(IOException::class)
     private fun createImageFile(name: String): File {
 
-        val storageDir: File? = ApplicationContext.context.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+        val storageDir: File? =
+            ApplicationContext.context.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
         return File.createTempFile(
             "JPEG_${name}_", /* prefix */
             ".jpg", /* suffix */

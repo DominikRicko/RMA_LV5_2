@@ -14,14 +14,14 @@ import pub.devrel.easypermissions.EasyPermissions
 @SuppressLint("MissingPermission")
 class Locations private constructor() : LocationListener {
 
-    private var _location : LatLng
+    private var _location: LatLng
 
     val location: LatLng
-    get() = _location
+        get() = _location
 
-    init{
-        locationManager = ApplicationContext.context.
-            getSystemService(Context.LOCATION_SERVICE) as LocationManager
+    init {
+        locationManager =
+            ApplicationContext.context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
 
         val criteria = Criteria()
         criteria.accuracy = Criteria.ACCURACY_COARSE
@@ -31,25 +31,29 @@ class Locations private constructor() : LocationListener {
             ?: LocationManager.NETWORK_PROVIDER
 
         if (EasyPermissions.hasPermissions(ApplicationContext.context, PERMISSION))
-            locationManager.requestLocationUpdates(locationProvider,
-                1000L, 10.0f, this)
+            locationManager.requestLocationUpdates(
+                locationProvider,
+                1000L, 10.0f, this
+            )
 
         val lastLocation = locationManager.getLastKnownLocation(locationProvider)
-        _location = LatLng(lastLocation?.latitude ?: 45.8150,
-            lastLocation?.longitude ?: 15.9819)
+        _location = LatLng(
+            lastLocation?.latitude ?: 45.8150,
+            lastLocation?.longitude ?: 15.9819
+        )
 
     }
 
-    companion object{
+    companion object {
         private lateinit var instance: Locations
         const val PERMISSION = Manifest.permission.ACCESS_COARSE_LOCATION
         const val CODE = 10
-        private lateinit var locationManager : LocationManager
+        private lateinit var locationManager: LocationManager
         private lateinit var locationProvider: String
 
-        fun getInstance(): Locations{
+        fun getInstance(): Locations {
 
-            if(!this::instance.isInitialized) instance = Locations()
+            if (!this::instance.isInitialized) instance = Locations()
             return instance
 
         }

@@ -23,7 +23,7 @@ class MainActivity : AppCompatActivity() {
 
         binding.also { it ->
             it.mvMap.onCreate(savedInstanceState)
-            it.btnTakePhoto.setOnClickListener{ viewModel.storePhoto() }
+            it.btnTakePhoto.setOnClickListener { viewModel.storePhoto() }
             it.mvMap.getMapAsync { googleMap -> viewModel.giveMap(googleMap) }
         }
     }
