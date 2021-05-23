@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".ui.activity.MainActivity">
+
     <data>
 
         <variable
@@ -57,8 +58,8 @@
             android:layout_height="wrap_content"
             app:layout_constraintLeft_toLeftOf="@id/guide_start"
             app:layout_constraintTop_toBottomOf="@id/btn_takePhoto"
-            tools:text="Geografska širina: 45.0010101"
-            app:text="@{viewModel.latitude}" />
+            app:text="@{viewModel.latitude}"
+            tools:text="Geografska širina: 45.0010101" />
 
         <TextView
             android:id="@+id/tv_longitude"
@@ -66,8 +67,8 @@
             android:layout_height="wrap_content"
             app:layout_constraintLeft_toLeftOf="@id/guide_start"
             app:layout_constraintTop_toBottomOf="@id/tv_latitude"
-            tools:text="Geografska dužina: 18.0010101"
-            app:text="@{viewModel.longitude}" />
+            app:text="@{viewModel.longitude}"
+            tools:text="Geografska dužina: 18.0010101" />
 
         <TextView
             android:id="@+id/tv_state"
@@ -75,8 +76,8 @@
             android:layout_height="wrap_content"
             app:layout_constraintLeft_toLeftOf="@id/guide_start"
             app:layout_constraintTop_toBottomOf="@id/tv_longitude"
-            tools:text="Država: Hrvatska"
-            app:text="@{viewModel.state}" />
+            app:text="@{viewModel.state}"
+            tools:text="Država: Hrvatska" />
 
         <TextView
             android:id="@+id/tv_place"
@@ -84,8 +85,8 @@
             android:layout_height="wrap_content"
             app:layout_constraintLeft_toLeftOf="@id/guide_start"
             app:layout_constraintTop_toBottomOf="@id/tv_state"
-            tools:text="Mjesto: Osijek"
-            app:text="@{viewModel.place}" />
+            app:text="@{viewModel.place}"
+            tools:text="Mjesto: Osijek" />
 
         <TextView
             android:id="@+id/tv_address"
@@ -93,8 +94,8 @@
             android:layout_height="wrap_content"
             app:layout_constraintLeft_toLeftOf="@id/guide_start"
             app:layout_constraintTop_toBottomOf="@id/tv_place"
-            tools:text="Adresa: Petrinjska ulica 51"
-            app:text="@{viewModel.address}" />
+            app:text="@{viewModel.address}"
+            tools:text="Adresa: Petrinjska ulica 51" />
 
         <com.google.android.gms.maps.MapView
             android:id="@+id/mv_map"

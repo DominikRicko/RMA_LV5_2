@@ -7,10 +7,10 @@ import hr.dominikricko.rma_lv5_2.R
 
 class Sounds private constructor() {
 
-    private val soundpool : SoundPool
+    private val soundpool: SoundPool
     private val markerSoundId: Int
 
-    init{
+    init {
         val soundpoolBuilder = SoundPool.Builder()
         val soundAttributesBuilder = AudioAttributes.Builder()
 
@@ -24,17 +24,17 @@ class Sounds private constructor() {
         markerSoundId = soundpool.load(ApplicationContext.context, R.raw.click, 0)
     }
 
-    companion object{
+    companion object {
         private lateinit var instance: Sounds
 
         @JvmName("getInstance1")
         fun getInstance(): Sounds {
-            if(!this::instance.isInitialized) instance = Sounds()
+            if (!this::instance.isInitialized) instance = Sounds()
             return instance
         }
     }
 
-    fun playMarkerSound(){
+    fun playMarkerSound() {
         soundpool.play(markerSoundId, 0.8f, 0.8f, 0, 0, 1.0f)
     }
 

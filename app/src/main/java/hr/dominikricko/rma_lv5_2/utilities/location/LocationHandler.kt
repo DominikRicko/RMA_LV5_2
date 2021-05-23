@@ -13,12 +13,12 @@ import pub.devrel.easypermissions.EasyPermissions
 
 class LocationHandler private constructor() : LocationListener {
 
-    companion object{
-        private lateinit var instance : LocationHandler
+    companion object {
+        private lateinit var instance: LocationHandler
         const val PERMISSION = Manifest.permission.ACCESS_FINE_LOCATION
 
-        fun getInstance() : LocationHandler{
-            if(!this::instance.isInitialized) instance = LocationHandler()
+        fun getInstance(): LocationHandler {
+            if (!this::instance.isInitialized) instance = LocationHandler()
             return instance
         }
 
@@ -28,18 +28,18 @@ class LocationHandler private constructor() : LocationListener {
         .getSystemService(Context.LOCATION_SERVICE) as LocationManager
 
     private fun trackLocation() {
-        if(EasyPermissions.hasPermissions(ApplicationContext.context,PERMISSION)){
+        if (EasyPermissions.hasPermissions(ApplicationContext.context, PERMISSION)) {
             startTrackingLocation()
         } else {
-            PermissionRequester.requestPermissions(PERMISSION){
-                if(it[0].state == State.GRANTED)
+            PermissionRequester.requestPermissions(PERMISSION) {
+                if (it[0].state == State.GRANTED)
                     startTrackingLocation()
 
             }
         }
     }
 
-    private fun stopTrackingLocation(){
+    private fun stopTrackingLocation() {
         locationManager.removeUpdates(this)
     }
 
@@ -50,31 +50,31 @@ class LocationHandler private constructor() : LocationListener {
             ?: LocationManager.NETWORK_PROVIDER
         val minTime = 1000L
         val minDistance = 10.0F
-        try{
+        try {
             locationManager.requestLocationUpdates(provider, minTime, minDistance, this)
-        } catch (e: SecurityException){
+        } catch (e: SecurityException) {
 
         }
     }
 
-    fun hasSubscribers() : Boolean{
+    fun hasSubscribers(): Boolean {
         return subscribers.size > 0
     }
 
     private val subscribers = arrayListOf<LocationListenerObserver>()
 
-    fun subscribe(subscriber: LocationListenerObserver){
-        if (!subscribers.contains(subscriber))  subscribers.add((subscriber))
-        if(hasSubscribers()) trackLocation()
+    fun subscribe(subscriber: LocationListenerObserver) {
+        if (!subscribers.contains(subscriber)) subscribers.add((subscriber))
+        if (hasSubscribers()) trackLocation()
     }
 
-    fun unsubscribe(subscriber: LocationListenerObserver){
+    fun unsubscribe(subscriber: LocationListenerObserver) {
         subscribers.remove(subscriber)
-        if(!hasSubscribers()) stopTrackingLocation()
+        if (!hasSubscribers()) stopTrackingLocation()
     }
 
     override fun onLocationChanged(location: Location) {
-        subscribers.forEach{ it.update((location))}
+        subscribers.forEach { it.update((location)) }
     }
 
 

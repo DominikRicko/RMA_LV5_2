@@ -6,7 +6,7 @@ import hr.dominikricko.rma_lv5_2.di.viewModel
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.GlobalContext.startKoin
 
-class ApplicationContext: Application() {
+class ApplicationContext : Application() {
 
     companion object {
         lateinit var instance: ApplicationContext
@@ -19,7 +19,7 @@ class ApplicationContext: Application() {
         super.onCreate()
         instance = this
 
-        startKoin{
+        startKoin {
             androidContext(this@ApplicationContext)
             modules(viewModel)
         }

@@ -21,9 +21,9 @@ class MainActivity : AppCompatActivity() {
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
 
-        binding.also{ it ->
+        binding.also { it ->
             it.mvMap.onCreate(savedInstanceState)
-            it.mvMap.getMapAsync { googleMap -> viewModel.giveMap(googleMap)}
+            it.mvMap.getMapAsync { googleMap -> viewModel.giveMap(googleMap) }
         }
     }
 

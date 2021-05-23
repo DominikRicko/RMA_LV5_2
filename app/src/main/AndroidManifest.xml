@@ -26,7 +26,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".utilities.permissions.PermissionRequestActivity"/>
+        <activity android:name=".utilities.permissions.PermissionRequestActivity" />
     </application>
 
 </manifest>
