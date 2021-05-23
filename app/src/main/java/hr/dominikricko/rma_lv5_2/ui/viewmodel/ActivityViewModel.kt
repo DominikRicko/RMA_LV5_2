@@ -8,6 +8,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import hr.dominikricko.rma_lv5_2.ApplicationContext
 import hr.dominikricko.rma_lv5_2.model.LocationData
+import hr.dominikricko.rma_lv5_2.utilities.PhotoSaver
 import hr.dominikricko.rma_lv5_2.utilities.Sounds
 import hr.dominikricko.rma_lv5_2.utilities.camera.CameraHandler
 import java.util.*
@@ -55,7 +56,13 @@ class ActivityViewModel : ViewModel(), Observer {
     }
 
     fun storePhoto(){
-        cameraHandler.requestPhoto { Toast.makeText(ApplicationContext.context,"Got a photo", Toast.LENGTH_SHORT).show() }
+        cameraHandler.requestPhoto {
+            Toast.makeText(ApplicationContext.context,"Got a photo", Toast.LENGTH_SHORT).show()
+            if (it != null) {
+                PhotoSaver.savePhoto("Test", it)
+            }
+
+        }
     }
 
 }
