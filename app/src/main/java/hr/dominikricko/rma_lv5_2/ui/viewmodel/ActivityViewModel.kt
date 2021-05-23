@@ -1,29 +1,28 @@
 package hr.dominikricko.rma_lv5_2.ui.viewmodel
 
-import android.location.Location
 import androidx.lifecycle.ViewModel
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import hr.dominikricko.rma_lv5_2.model.LocationData
 import hr.dominikricko.rma_lv5_2.utilities.Sounds
-import hr.dominikricko.rma_lv5_2.utilities.location.LocationHandler
-import hr.dominikricko.rma_lv5_2.utilities.location.LocationListenerObserver
+import java.util.*
 
-class ActivityViewModel : ViewModel(), LocationListenerObserver {
+class ActivityViewModel : ViewModel(), Observer {
 
     private lateinit var map: GoogleMap
     private val sounds = Sounds.getInstance()
-    private val locationHandler = LocationHandler.getInstance()
+    private val locationData = LocationData()
 
-    var latitude: String = "Geografska širina: 0.00000"
-    var longitude: String = "Geografska dužina: 0.00000"
-    var address: String = "Adresa: unknown"
-    var state: String = "Država: unknown"
-    var place: String = "Mjesto: unknown"
+    val latitude = locationData.latitude
+    val longitude = locationData.longitude
+    val address = locationData.address
+    val state = locationData.state
+    val place = locationData.place
 
     init {
-        locationHandler.subscribe(this)
+        locationData.addObserver(this)
     }
 
     fun giveMap(googleMap: GoogleMap) {
@@ -31,14 +30,8 @@ class ActivityViewModel : ViewModel(), LocationListenerObserver {
         map.setOnMapLongClickListener { addMarker(it) }
     }
 
-    fun setMapToNewLocation(latitudeLongitude: LatLng) {
+    private fun setMapToNewLocation(latitudeLongitude: LatLng) {
         map.animateCamera(CameraUpdateFactory.newLatLngZoom(latitudeLongitude, 10f))
-    }
-
-    fun updateProperties(location: Location) {
-        latitude = StringBuilder()
-            .append("Geografska širina: ")
-            .append(location.latitude).toString()
     }
 
     private fun addMarker(latLng: LatLng) {
@@ -50,9 +43,10 @@ class ActivityViewModel : ViewModel(), LocationListenerObserver {
         sounds.playMarkerSound()
     }
 
-    override fun update(location: Location) {
-        setMapToNewLocation(LatLng(location.latitude, location.longitude))
-        updateProperties(location)
-        locationHandler.unsubscribe(this)
+    override fun update(o: Observable?, arg: Any?) {
+        if(o == locationData){
+            setMapToNewLocation( arg as? LatLng ?: LatLng(0.0, 0.0))
+            locationData.deleteObserver(this)
+        }
     }
 }

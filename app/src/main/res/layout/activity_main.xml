@@ -58,7 +58,7 @@
             android:layout_height="wrap_content"
             app:layout_constraintLeft_toLeftOf="@id/guide_start"
             app:layout_constraintTop_toBottomOf="@id/btn_takePhoto"
-            app:text="@{viewModel.latitude}"
+            android:text="@{viewModel.latitude.toString()}"
             tools:text="Geografska širina: 45.0010101" />
 
         <TextView
@@ -67,7 +67,7 @@
             android:layout_height="wrap_content"
             app:layout_constraintLeft_toLeftOf="@id/guide_start"
             app:layout_constraintTop_toBottomOf="@id/tv_latitude"
-            app:text="@{viewModel.longitude}"
+            android:text="@{viewModel.longitude.toString()}"
             tools:text="Geografska dužina: 18.0010101" />
 
         <TextView
@@ -76,7 +76,7 @@
             android:layout_height="wrap_content"
             app:layout_constraintLeft_toLeftOf="@id/guide_start"
             app:layout_constraintTop_toBottomOf="@id/tv_longitude"
-            app:text="@{viewModel.state}"
+            android:text="@{viewModel.state}"
             tools:text="Država: Hrvatska" />
 
         <TextView
@@ -85,7 +85,7 @@
             android:layout_height="wrap_content"
             app:layout_constraintLeft_toLeftOf="@id/guide_start"
             app:layout_constraintTop_toBottomOf="@id/tv_state"
-            app:text="@{viewModel.place}"
+            android:text="@{viewModel.place}"
             tools:text="Mjesto: Osijek" />
 
         <TextView
@@ -94,7 +94,7 @@
             android:layout_height="wrap_content"
             app:layout_constraintLeft_toLeftOf="@id/guide_start"
             app:layout_constraintTop_toBottomOf="@id/tv_place"
-            app:text="@{viewModel.address}"
+            android:text="@{viewModel.address}"
             tools:text="Adresa: Petrinjska ulica 51" />
 
         <com.google.android.gms.maps.MapView

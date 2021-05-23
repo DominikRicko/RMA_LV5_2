@@ -57,7 +57,7 @@ class LocationHandler private constructor() : LocationListener {
         }
     }
 
-    fun hasSubscribers(): Boolean {
+    private fun hasSubscribers(): Boolean {
         return subscribers.size > 0
     }
 
