@@ -20,7 +20,7 @@ object Notifier {
 
         val intent = Intent(ApplicationContext.context, Notification::class.java)
         intent.action = Intent.ACTION_VIEW
-        intent.setDataAndType(file.toUri(), "image/*");
+        intent.setDataAndType(file.toUri(), "image/*")
         intent.flags = Intent.FLAG_GRANT_READ_URI_PERMISSION +
                 Intent.FLAG_ACTIVITY_NEW_TASK + Intent.FLAG_ACTIVITY_CLEAR_TASK
 
@@ -37,6 +37,10 @@ object Notifier {
         val notification = builder.setContentTitle("Taken photo")
             .setContentText("Tap to view.")
             .setContentIntent(pIntent)
+            .setStyle(NotificationCompat.BigPictureStyle()
+                .bigPicture(bm.asImageBitmap().asAndroidBitmap())
+                .bigLargeIcon(null)
+            )
             .setLargeIcon(bm.asImageBitmap().asAndroidBitmap())
             .build()
 
